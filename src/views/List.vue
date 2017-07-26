@@ -1,7 +1,7 @@
 <template>
   <section class="list-view">
-    <div class="loading" v-if="loading">loading..</div>
-    <div class="no-content" v-else-if="filteredList.length === 0">nothing..</div>
+    <div class="loading" v-if="loading">loading...</div>
+    <div class="no-content" v-else-if="filteredList.length === 0">nothing...</div>
     <ol v-else class="list">
       <li v-for="{ title, sha, date } in filteredList" :key="sha" class="list-item">
         <router-link :to="'/post/' + sha" class="item-title">

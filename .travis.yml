@@ -24,8 +24,8 @@ install:
   - npm install
 
 before_script:
-  - git config --global user.name "viko16"
-  - git config --global user.email "16viko@gmail.com"
+  - git config --global user.name "mbicknese"
+  - git config --global user.email "maarten.bicknese@gmail.com"
   - git clone --branch gh-pages https://${GH_REF} dist
 
 script:
@@ -34,7 +34,7 @@ script:
 after_success:
   - npm run build
   - cd dist
-  - echo "ukn.me" > CNAME
+  - echo "maarten.bicknese.nl" > CNAME
   - cp index.html 404.html
   - git add --all .
   - git commit --message "Automatically update from travis-ci"
