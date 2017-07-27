@@ -26,7 +26,7 @@ install:
 before_script:
   - git config --global user.name "mbicknese"
   - git config --global user.email "maarten.bicknese@gmail.com"
-  - git clone --branch gh-pages https://${GH_REF} dist
+  - git clone --branch master https://${GH_REF} dist
 
 script:
   - npm test
@@ -38,7 +38,7 @@ after_success:
   - cp index.html 404.html
   - git add --all .
   - git commit --message "Automatically update from travis-ci"
-  - git push --quiet "https://${GH_TOKEN}@${GH_REF}" gh-pages:gh-pages
+  - git push --quiet "https://${GH_TOKEN}@${GH_REF}" master:master
 
 # Note: you should set Environment Variables here or 'Settings' on travis-ci.org
 env:
