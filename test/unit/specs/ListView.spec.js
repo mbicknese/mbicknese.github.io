@@ -11,7 +11,7 @@ describe('List.vue', function () {
   it('should get loading text when have no item', function () {
     const Constructor = Vue.extend(ListView)
     const vm = new Constructor().$mount()
-    expect(vm.$el.textContent.trim()).to.eql('loading..')
+    expect(vm.$el.textContent.trim()).to.eql('loading...')
   })
 
   // FIXME, error: __vue_exports__ is not a function
