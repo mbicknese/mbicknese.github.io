@@ -5,7 +5,7 @@
     <ol v-else class="list">
       <li v-for="{ title, sha, date } in filteredList" :key="sha" class="list-item">
         <router-link :to="'/post/' + sha" class="item-title">
-          {{ titlefy(title) }}
+          {{ title }}
         </router-link>
         <br>
         <time pubdate="pubdate" :datetime="date | formatDate" :title="date | formatDate" class="item-date">{{ date | timeago }}</time>
@@ -58,11 +58,6 @@
             this.loading = false
             console.error(err)
           })
-      },
-      titlefy (title) {
-        return title
-          .replace(/[[0-9-]+_/, '')
-          .replace(/-/g, ' ')
       }
     },
 
