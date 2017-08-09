@@ -22,10 +22,10 @@ function getListUrl () {
  * @param {string} hash
  * @returns {string}
  */
-function getPostUrl (hash) {
-  // @see https://developer.github.com/v3/git/blobs/#get-a-blob
-  return `https://api.github.com/repos/${conf.repo}/git/blobs/${hash}`
-}
+// function getPostUrl (hash) {
+//   // @see https://developer.github.com/v3/git/blobs/#get-a-blob
+//   return `https://api.github.com/repos/${conf.repo}/git/blobs/${hash}`
+// }
 
 // Cache processor
 const Cache = {
@@ -39,7 +39,7 @@ const Cache = {
     return true
   },
   has: (key) => {
-    return Boolean(window.sessionStorage && window.sessionStorage.hasOwnProperty(key))
+    return false && Boolean(window.sessionStorage && window.sessionStorage.hasOwnProperty(key))
   }
 }
 
@@ -79,7 +79,8 @@ export default {
       // Read from cache
       return Promise.resolve(Cache.get(cacheKey))
     } else {
-      return axios.get(getPostUrl(hash), httpOpts)
+      // return axios.get(`https://api.github.com/repos/mbicknese/resume/README.md`, httpOpts)
+      return axios.get(`https://raw.githubusercontent.com/${conf.repo}/master/posts/${hash}.md`, httpOpts)
         .then(res => res.data)
         .then(content => {
           // Save into cache
