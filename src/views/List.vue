@@ -3,8 +3,8 @@
     <div class="loading" v-if="loading">loading...</div>
     <div class="no-content" v-else-if="filteredList.length === 0">nothing...</div>
     <ol v-else class="list">
-      <li v-for="{ title, sha, date } in filteredList" :key="sha" class="list-item">
-        <router-link :to="'/post/' + sha" class="item-title">
+      <li v-for="{ title, path, date } in filteredList" :key="path" class="list-item">
+        <router-link :to="'/post/' + path" class="item-title">
           {{ title }}
         </router-link>
         <br>
@@ -17,6 +17,7 @@
 <script>
   import api from '../api'
   import conf from '../config'
+  import { strategy } from '../router'
 
   export default {
     name: 'listView',
@@ -36,6 +37,7 @@
         }
         // Filter by title, Order by publish date, desc
         return this.lists
+          .map(item => { item.path = strategy.filenameToUrl(item.name); return item })
           .filter(item => (item.title.toLowerCase().indexOf(keyword) !== -1))
           .sort((itemA, itemB) => (new Date(itemB.date) - new Date(itemA.date)))
       }

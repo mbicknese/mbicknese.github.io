@@ -57,6 +57,7 @@ export default {
           const list = arr.map(({name, sha, size}) => ({
             title: onlyTitle(name),
             date: onlyDate(name),
+            name: name,
             sha,
             size
           }))
@@ -68,19 +69,14 @@ export default {
     }
   },
 
-  getDetail (hash) {
-    const httpOpts = {
-      // https://developer.github.com/v3/media/#raw-1
-      headers: { Accept: 'application/vnd.github.v3.raw' }
-    }
-    const cacheKey = 'post.' + hash
+  getDetail (filename) {
+    const cacheKey = 'post.' + filename
 
     if (Cache.has(cacheKey)) {
       // Read from cache
       return Promise.resolve(Cache.get(cacheKey))
     } else {
-      // return axios.get(`https://api.github.com/repos/mbicknese/resume/README.md`, httpOpts)
-      return axios.get(`https://raw.githubusercontent.com/${conf.repo}/master/posts/${hash}.md`, httpOpts)
+      return axios.get(`https://raw.githubusercontent.com/${conf.repo}/master/posts/${filename}`)
         .then(res => res.data)
         .then(content => {
           // Save into cache
