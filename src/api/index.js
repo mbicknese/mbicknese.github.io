@@ -18,14 +18,13 @@ function getListUrl () {
 }
 
 /**
- * Format GitHub Api url for file content
- * @param {string} hash
+ * Format GitHub raw url for file content
+ * @param {string} filename
  * @returns {string}
  */
-// function getPostUrl (hash) {
-//   // @see https://developer.github.com/v3/git/blobs/#get-a-blob
-//   return `https://api.github.com/repos/${conf.repo}/git/blobs/${hash}`
-// }
+function getPostUrl (filename) {
+  return `https://raw.githubusercontent.com/${conf.repo}/master/posts/${filename}`
+}
 
 // Cache processor
 const Cache = {
@@ -39,7 +38,7 @@ const Cache = {
     return true
   },
   has: (key) => {
-    return false && Boolean(window.sessionStorage && window.sessionStorage.hasOwnProperty(key))
+    return Boolean(window.sessionStorage && window.sessionStorage.hasOwnProperty(key))
   }
 }
 
@@ -76,7 +75,7 @@ export default {
       // Read from cache
       return Promise.resolve(Cache.get(cacheKey))
     } else {
-      return axios.get(`https://raw.githubusercontent.com/${conf.repo}/master/posts/${filename}`)
+      return axios.get(getPostUrl(filename))
         .then(res => res.data)
         .then(content => {
           // Save into cache
