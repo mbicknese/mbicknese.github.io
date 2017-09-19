@@ -15,6 +15,7 @@
   import conf from '../config'
   import fm from 'front-matter'
   import marked from '../utils/render.js'
+  import { strategy } from '../router'
 
   export default {
     name: 'postView',
@@ -39,7 +40,7 @@
 
     methods: {
       loadPost () {
-        api.getDetail(this.$route.params.hash)
+        api.getDetail(strategy.urlToFilename(this.$route.params[0]))
           .then(text => {
             // Parse front-matter
             // https://github.com/jxson/front-matter#fmstring

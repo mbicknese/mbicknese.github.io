@@ -18,13 +18,12 @@ function getListUrl () {
 }
 
 /**
- * Format GitHub Api url for file content
- * @param {string} hash
+ * Format GitHub raw url for file content
+ * @param {string} filename
  * @returns {string}
  */
-function getPostUrl (hash) {
-  // @see https://developer.github.com/v3/git/blobs/#get-a-blob
-  return `https://api.github.com/repos/${conf.repo}/git/blobs/${hash}`
+function getPostUrl (filename) {
+  return `https://raw.githubusercontent.com/${conf.repo}/master/posts/${filename}`
 }
 
 // Cache processor
@@ -57,6 +56,7 @@ export default {
           const list = arr.map(({name, sha, size}) => ({
             title: onlyTitle(name),
             date: onlyDate(name),
+            name: name,
             sha,
             size
           }))
@@ -68,18 +68,14 @@ export default {
     }
   },
 
-  getDetail (hash) {
-    const httpOpts = {
-      // https://developer.github.com/v3/media/#raw-1
-      headers: { Accept: 'application/vnd.github.v3.raw' }
-    }
-    const cacheKey = 'post.' + hash
+  getDetail (filename) {
+    const cacheKey = 'post.' + filename
 
     if (Cache.has(cacheKey)) {
       // Read from cache
       return Promise.resolve(Cache.get(cacheKey))
     } else {
-      return axios.get(getPostUrl(hash), httpOpts)
+      return axios.get(getPostUrl(filename))
         .then(res => res.data)
         .then(content => {
           // Save into cache

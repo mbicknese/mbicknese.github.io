@@ -34,7 +34,6 @@ script:
 after_success:
   - npm run build
   - cd dist
-  - echo "maarten.bicknese.nl" > CNAME
   - cp index.html 404.html
   - git add --all .
   - git commit --message "Automatically update from travis-ci"
